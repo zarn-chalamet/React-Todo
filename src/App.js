@@ -9,9 +9,9 @@ import { useEffect, useState } from "react";
 
 function App() {
   let [todos, setTodos] = useState([]);
-  let [url, setUrl] = useState("http://localhost:3001/todos");
+  let [url, setUrl] = useState("");
   useEffect(() => {
-    fetch(url)
+    fetch("http://localhost:3001/todos")
       .then((respond) => respond.json())
       .then((todos) => {
         setTodos(todos);
@@ -20,7 +20,7 @@ function App() {
 
   let addTodo = (todo) => {
     //update data at the server side
-    fetch(url, {
+    fetch("http://localhost:3001/todos", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,14 +41,58 @@ function App() {
       }); // [todo,todo]
     });
   };
+  let updateTodo = (todo) => {
+    //sever side
+    fetch(`http://localhost:3001/todos/${todo.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(todo),
+    });
+    //client side
+    setTodos((prevState) => {
+      return prevState.map((t) => {
+        if (t.id === todo.id) {
+          return todo;
+        }
+        return t;
+      });
+    });
+  };
+
+  let remainingCount = todos.filter((todo) => {
+    return todo.completed === false;
+  }).length;
+
+  let checkAll = () => {
+    //server
+    todos.forEach((t) => {
+      t.completed = true;
+      updateTodo(t);
+    });
+    //client
+    setTodos((prevState) => {
+      return prevState.map((t) => {
+        return { ...t, completed: true };
+      });
+    });
+  };
 
   return (
     <div className="todo-app-container">
       <div className="todo-app">
         <h2>Todo App</h2>
         <TodoForm addTodo={addTodo} />
-        <TodoList todos={todos} deleteTodo={deleteTodo} />
-        <CheckAllAndRemaining />
+        <TodoList
+          todos={todos}
+          deleteTodo={deleteTodo}
+          updateTodo={updateTodo}
+        />
+        <CheckAllAndRemaining
+          remainingCount={remainingCount}
+          checkAll={checkAll}
+        />
         <div className="other-buttons-container">
           <TodoFilters />
           <ClearCompletedBtn />

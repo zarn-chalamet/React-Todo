@@ -3,12 +3,17 @@
     {
       "id": 1,
       "title": "My First Todo",
-      "completed": false
+      "completed": true
     },
     {
       "id": 0.604001484847611,
       "title": "get scholar",
-      "completed": false
+      "completed": true
+    },
+    {
+      "id": 0.5546884860346994,
+      "title": "no third fourth",
+      "completed": true
     }
   ]
 }
