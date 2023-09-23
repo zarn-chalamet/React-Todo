@@ -1,3 +1,19 @@
 {
-  "todos": []
+  "todos": [
+    {
+      "id": 0.6241419365719534,
+      "title": "first ",
+      "completed": true
+    },
+    {
+      "id": 0.2251231995069949,
+      "title": "second",
+      "completed": true
+    },
+    {
+      "id": 0.6726884890002487,
+      "title": "third",
+      "completed": true
+    }
+  ]
 }
